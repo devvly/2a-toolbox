@@ -4,10 +4,7 @@
     "type": "library",
     "license": "MIT",
     "scripts": {
-        "post-install-cmd": [
-            "bash vendor/devvly/2a-toolbox/scripts/install-2a.sh"
-        ],
-        "post-update-cmd": [
+        "post-autoload-dump": [
             "bash vendor/devvly/2a-toolbox/scripts/install-2a.sh"
         ]
     },
