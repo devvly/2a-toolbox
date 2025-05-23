@@ -6,6 +6,9 @@
     "scripts": {
         "post-install-cmd": [
             "bash vendor/devvly/2a-toolbox/scripts/install-2a.sh"
+        ],
+        "post-update-cmd": [
+            "bash vendor/devvly/2a-toolbox/scripts/install-2a.sh"
         ]
     },
     "require": {}
