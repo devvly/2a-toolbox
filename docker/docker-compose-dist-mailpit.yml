@@ -1,0 +1,59 @@
+services:
+    ${PROJECT_NAME}-nginx:
+        container_name: ${PROJECT_NAME}-nginx
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - .:/var/www/html
+            - ./vendor/devvly/2a-toolbox/docker/nginx.conf:/etc/nginx/nginx.conf:ro
+        networks:
+            - ${PROJECT_NAME}-net
+        depends_on:
+            - ${PROJECT_NAME}-web
+
+    ${PROJECT_NAME}-web:
+        container_name: ${PROJECT_NAME}-web
+        build:
+            context: .
+            dockerfile: vendor/devvly/2a-toolbox/docker/Dockerfile
+        env_file:
+            - .env
+        volumes:
+            - .:/var/www/html
+        networks:
+            - ${PROJECT_NAME}-net
+        depends_on:
+            - ${PROJECT_NAME}-mysql
+
+    ${PROJECT_NAME}-mysql:
+        container_name: ${PROJECT_NAME}-mysql
+        platform: "linux/amd64"
+        image: mysql:8.0
+        environment:
+            MYSQL_DATABASE: $DB_DATABASE
+            MYSQL_USER: $DB_USERNAME
+            MYSQL_PASSWORD: $DB_PASSWORD
+            MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+        ports:
+            - "3306:3306"
+        volumes:
+            - ${PROJECT_NAME}-mysql:/var/lib/mysql
+        networks:
+            - ${PROJECT_NAME}-net
+    
+    ${PROJECT_NAME}-mailpit:
+        container_name: ${PROJECT_NAME}-mysql
+        image: axllent/mailpit
+        ports:
+            - "8025:8025"
+            - "1025:1025"
+        networks:
+            - ${PROJECT_NAME}-net
+
+volumes:
+    ${PROJECT_NAME}-mysql:
+
+networks:
+    ${PROJECT_NAME}-net:
+        driver: bridge

@@ -1,0 +1,12 @@
+{
+    "name": "devvly/2a-toolbox",
+    "description": "Reusable dev environment for Laravel projects",
+    "type": "library",
+    "license": "MIT",
+    "scripts": {
+        "post-install-cmd": [
+            "bash vendor/devvly/2a-toolbox/scripts/install-2a.sh"
+        ]
+    },
+    "require": {}
+}

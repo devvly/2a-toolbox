@@ -1,0 +1,45 @@
+services:
+    ${PROJECT_NAME}-web-test:
+        container_name: ${PROJECT_NAME}-web-test
+        build:
+            context: .
+            dockerfile: vendor/devvly/2a-toolbox/docker/Dockerfile-test
+        environment:
+            APP_ENV: "testing"
+            QUEUE_CONNECTION: "sync"
+            MAIL_MAILER: "log"
+            DB_HOST: ${PROJECT_NAME}-test
+            DB_DATABASE: $DB_DATABASE_TEST
+            DB_CONNECTION: mysql
+            DB_PORT: 3306
+            DB_USERNAME: $DB_USERNAME
+            DB_PASSWORD: $DB_PASSWORD
+        volumes:
+            - .:/var/www/html
+        networks:
+            - ${PROJECT_NAME}-net-test
+        depends_on:
+            - ${PROJECT_NAME}-mysql-test
+
+    ${PROJECT_NAME}-mysql-test:
+        container_name: ${PROJECT_NAME}-mysql-test
+        platform: "linux/amd64"
+        image: mysql:8.0
+        environment:
+            MYSQL_DATABASE: $DB_DATABASE_TEST
+            MYSQL_USER: $DB_USERNAME
+            MYSQL_PASSWORD: $DB_PASSWORD
+            MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+        ports:
+            - "3306:3306"
+        volumes:
+            - ${PROJECT_NAME}-mysql-test:/var/lib/mysql
+        networks:
+            - ${PROJECT_NAME}-net-test
+
+volumes:
+    ${PROJECT_NAME}-mysql-test:
+
+networks:
+    ${PROJECT_NAME}-net-test:
+        driver: bridge
