@@ -8,7 +8,7 @@ services:
             APP_ENV: "testing"
             QUEUE_CONNECTION: "sync"
             MAIL_MAILER: "log"
-            DB_HOST: ${PROJECT_NAME}-test
+            DB_HOST: ${PROJECT_NAME}-mysql-test
             DB_DATABASE: $DB_DATABASE_TEST
             DB_CONNECTION: mysql
             DB_PORT: 3306
